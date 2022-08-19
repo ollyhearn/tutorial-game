@@ -6,7 +6,6 @@ Game::Game() {}
 Game::~Game() {}
 
 int m_currentFrame;
-TextureManager m_textureManager;
 
 bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int flags) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) == (IMG_INIT_PNG | IMG_INIT_JPG)) {
@@ -22,7 +21,7 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 				printf("%s\n", "renderer created");
 				SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 				// m_textureManager = new TextureManager();
-				m_textureManager.load("assets/pekar.png", "pekar", m_pRenderer);
+				TextureManager::Instance()->load("assets/pekar.png", "pekar", m_pRenderer);
 			}
 			else {
 				printf("%s\n", "renderer not created");
@@ -45,8 +44,8 @@ return true;
 
 void Game::render() {
 	SDL_RenderClear(m_pRenderer);
-	m_textureManager.draw("pekar", 0, 0, 128, 256, m_pRenderer);
-	m_textureManager.drawFrame("pekar", 100, 100, 128, 256, 1, m_currentFrame, m_pRenderer);
+	TextureManager::Instance()->draw("pekar", 0, 0, 128, 256, m_pRenderer);
+	TextureManager::Instance()->drawFrame("pekar", 100, 100, 128, 256, 1, m_currentFrame, m_pRenderer);
 	SDL_RenderPresent(m_pRenderer);
 }
 
