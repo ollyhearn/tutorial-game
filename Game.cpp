@@ -2,10 +2,15 @@
 #include "TextureManager.h"
 #include "TextureManager.cpp"
 
+#include "objects/Player.h"
+// #include "objects/GameObject.h"
+// #include "objects/GameObject.cpp"
+
 Game::Game() {}
 Game::~Game() {}
 
 int m_currentFrame;
+Player pekar;
 
 bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int flags) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) == (IMG_INIT_PNG | IMG_INIT_JPG)) {
@@ -22,6 +27,7 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 				SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 				// m_textureManager = new TextureManager();
 				TextureManager::Instance()->load("assets/pekar.png", "pekar", m_pRenderer);
+				pekar.load(m_pRenderer, 100, 100, 128, 256, "pekar");
 			}
 			else {
 				printf("%s\n", "renderer not created");
@@ -44,8 +50,9 @@ return true;
 
 void Game::render() {
 	SDL_RenderClear(m_pRenderer);
-	TextureManager::Instance()->draw("pekar", 0, 0, 128, 256, m_pRenderer);
-	TextureManager::Instance()->drawFrame("pekar", 100, 100, 128, 256, 1, m_currentFrame, m_pRenderer);
+	// TextureManager::Instance()->draw("pekar", 0, 0, 128, 256, m_pRenderer);
+	// TextureManager::Instance()->drawFrame("pekar", 100, 100, 128, 256, 1, m_currentFrame, m_pRenderer);
+	pekar.draw();
 	SDL_RenderPresent(m_pRenderer);
 }
 
@@ -73,4 +80,5 @@ void Game::handleEvents() {
 
 void Game::update() {
 	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	pekar.update();
 }
